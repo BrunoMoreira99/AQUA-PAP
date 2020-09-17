@@ -1,0 +1,39 @@
+extends layout
+
+block header-stylesheets
+    link(rel='stylesheet', href='/stylesheets/login.css')
+block header-scripts
+    script(src="/scripts/particles.min.js")
+    script(src="/scripts/signup.js")
+block content
+    div#particles-js
+    section.hero.is-fullheight
+        .hero-body
+            .container
+                .columns
+                    .column.is-4
+                        .box
+                            h1.title= "Registo"
+                            form(action='signup', method='post', novalidate)
+                                .field
+                                    label.label Nome de utilizador
+                                    p.control.has-icons-right
+                                        input.input(type='text' name='username' placeholder='Escolhe um nome de utilizador' required)
+                                .field
+                                    label.label E-mail
+                                    p.control.has-icons-right
+                                        input.input(type='email' name="email" placeholder='oteuemail@exemplo.org' required)
+                                .field
+                                    label.label Palavra-passe
+                                    p.control.has-icons-right
+                                        input.input(type='password' name="password" placeholder='Escolhe uma palavra-passe' required)
+                                .field
+                                    label.label Confirmar Palavra-passe
+                                    p.control.has-icons-right
+                                        input.input(type='password' name="conf-password" placeholder='Confirma a tua palavra-passe' required)
+                                .field
+                                    p.control(style="margin-top: 14px; text-align: right")
+                                        button.button.is-dark Criar conta
+                        p.has-text-centered.link
+                            span Já tens uma conta? 
+                            a(href='login') Iniciar sessão

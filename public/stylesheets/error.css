@@ -1,0 +1,24 @@
+html, body{
+    width:100%;
+    height:100%;
+}
+
+canvas{
+    display:block;
+    vertical-align:bottom;
+    position:absolute;
+    top:0;
+}
+
+pre {
+    background-color: #444;
+    padding: 10px;
+    border-radius: 3px;
+    color: whitesmoke;
+    font-size: 14px;
+}
+
+#particles-js{
+    width: 100%;
+    height: 100%;
+}

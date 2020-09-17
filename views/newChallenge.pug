@@ -1,0 +1,83 @@
+extends layout
+
+block header-stylesheets
+    link(rel='stylesheet', href='/stylesheets/simplemde.min.css')
+    link(rel='stylesheet', href='/stylesheets/newChallenge.css')
+block header-scripts
+    script(src="/scripts/simplemde.min.js")
+    script(src="/ace/ace.js")
+    script(src="/ace/ext-modelist.js")
+    script(src="/scripts/newChallenge.js")
+block content
+    include topbar
+    .section
+        .container
+            form(method='post', enctype='multipart/form-data', novalidate)
+                h4.title.is-4 Desafio
+                .field
+                    .columns
+                        .column
+                            .field
+                                label.label Título
+                                p.control.has-icon.has-icon-right
+                                    input.input(type='text', name='title', required)
+                        .column.is-two-thirds
+                            .field
+                                label.label Descrição
+                                p.control
+                                    input.input(type='text', name='description')
+                .field
+                    label.label Enunciado
+                    textarea.textarea#wording
+                .field
+                    label.label Dificuldade
+                    div.control
+                        label.radio.tag.is-primary
+                            input(type='radio', name='difficulty', value='Starter', required)
+                            | Iniciante
+                        label.radio.tag.is-success
+                            input(type='radio', name='difficulty', value='Easy', required)
+                            | Fácil
+                        label.radio.tag.is-warning
+                            input(type='radio', name='difficulty', value='Intermediate', required)
+                            | Intermédio
+                        label.radio.tag.is-danger
+                            input(type='radio', name='difficulty', value='Hard', required)
+                            | Difícil
+                        label.radio.tag.is-black
+                            input(type='radio', name='difficulty', value='Impossible', required)
+                            | Impossível
+                hr
+                p.control.is-pulled-right
+                    input#source-code(type='file', accept='.c,.cpp,.java', required)
+                    label.button.is-dark(for="source-code") Escolher ficheiro
+                h4.title.is-4 Código
+                .editor-container
+                    #editor
+                hr
+                h4.title.is-4 Casos de teste
+                .field
+                    p.control
+                        input#inputs(type='file', name='inputs', multiple, required)
+                        label.button.is-dark(for="inputs") Selecionar inputs
+                        span.help Nota: Os outputs serão automaticamente gerados.
+                hr
+                h4.title.is-4 Exemplos
+                .columns
+                    .column.is-half
+                        .columns
+                            .column
+                                .eg-container
+                                    span.tag.is-unselectable Input
+                                    span.tag.is-pulled-right.is-unselectable.is-circle 1
+                                    div.editor_eg.i
+                            .column
+                                .eg-container
+                                    span.tag.is-unselectable Output
+                                    span.tag.is-pulled-right.is-unselectable.is-circle 1
+                                    div.editor_eg.o
+                span.tag.add.is-dark.is-unselectable
+                    | Adicionar
+                    button.delete.is-small(type='button')
+                p.control.is-pulled-right
+                    button.button.is-info.is-outlined(type='submit') Submeter

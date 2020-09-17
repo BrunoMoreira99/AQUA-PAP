@@ -1,0 +1,177 @@
+html {
+    background-color: #f5f7fa;
+}
+
+a[title="JavaScript charts"] {
+    display: none !important;
+}
+
+.container.profile {
+    margin-top: 50px;
+}
+
+.profile-heading {
+    border: 1px solid #dbdbdb;
+    border-bottom: none;
+    border-radius: 3px 3px 0 0;
+    padding: 3rem 0;
+}
+
+.profile-heading .columns {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.profile-heading .stat {
+    border-left: 1px solid #dbdbdb;
+    margin: -31px 0 -32px 0;
+    display: flex;
+    align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+    .profile-heading .stat {
+        border-left: 0px;
+        margin-top: 60px;
+    }
+}
+
+.profile-heading .stat div {
+    margin: 0 auto;
+}
+
+.profile-heading .stat-key {
+  font-size: 17px;
+  font-weight: 200;
+}
+
+.profile-heading .stat-val {
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.tabs {
+    background-color: #ffffff;
+}
+
+.tabs.is-toggle a {
+    border-left-width: 0;
+    border-right-width: 0;
+}
+
+.tabs.is-toggle li:first-child a {
+    border-radius: 0 0 0 3px;
+}
+
+.tabs.is-toggle li:last-child a {
+    border-radius: 0 0 3px 0;
+}
+
+.tabs.is-toggle li:first-child a {
+    border-left-width: 1px;
+}
+
+.tabs.is-toggle li:last-child a {
+    border-right-width: 1px;
+}
+
+.avatar {
+    float: right;
+}
+
+.avatar img {
+    border-radius: 50%;
+}
+
+.avatar a {
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    color: #00d1b2;
+}
+
+.section.profile {
+    background-color: transparent;
+}
+
+.blank-section {
+    height: 100px;
+    padding: 1rem;
+}
+
+.blank-section div {
+    border: 1px dashed #999;
+    border-radius: 5px;
+    height: 100%
+}
+
+.blank-section .icon {
+    width: 100%;
+    height: 100%
+}
+
+.blank-section .icon .fa {
+    font-weight: 900;
+}
+
+.level-container {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 300;
+    line-height: 80px;
+}
+
+.level-container > .tag {
+    font-size: 3rem;
+    height: 80px;
+    width: 80px;
+}
+
+.level-container > .xp-bar {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.level-container > .subtitle {
+    margin-bottom: 0px;
+}
+
+.tag.stat {
+    width: 100%;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.challenge {
+    height: 130px;
+    position: relative;
+}
+
+.challenge img {
+    border-radius: 3px;
+}
+
+.challenge .description {
+    overflow: hidden;
+    height: 45px;
+    position: relative;
+    display: block;
+}
+
+.challenge .description:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 1) 90%);
+}
+
+.challenge article .media-right {
+    margin-left: 0px;
+}
+
+.challenge article .media-bottom-right {
+    position: absolute;
+    bottom: 1.25rem;
+    right: 1.25rem;
+}

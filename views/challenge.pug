@@ -1,0 +1,104 @@
+extends layout
+
+block header-stylesheets
+    link(rel='stylesheet', href='/stylesheets/challenge.css')
+block header-scripts
+    script(src="/ace/ace.js")
+    script(src="/ace/ext-modelist.js")
+    script(src="/scripts/challenge.js")
+block content
+    include topbar
+    if currentUser
+        .modal
+            .modal-background
+            .modal-card(style="display: none")
+                header.modal-card-head
+                    p.modal-card-title
+                    button.delete
+                section.modal-card-body
+                    h5.subtitle.is-5.result-message
+                    .level-container(style="display: none")
+                        | Nível 
+                        span.tag.is-info= currentUser.stats.level
+                        progress.progress.is-info.xp-bar(value=(currentUser.stats.levelXP / currentUser.getRequiredXP()), max='1')
+                        h6.subtitle.is-6
+                footer.modal-card-foot
+                    a.button.is-info OK
+    .section
+        .container
+            .columns
+                .column
+                    if challenge.description
+                        h3.title.is-3.is-spaced= challenge.title
+                        h6.subtitle.is-6= challenge.description
+                    else
+                        h3.title.is-3.is-spaced= challenge.title
+                .column.is-3.unprintable
+                    .box(style="box-shadow: none; border: 1px solid #dbdbdb;")
+                        .columns
+                            .column(style="padding: 0.25rem; margin: auto;")
+                                h5.subtitle.is-5(style="margin: 0;") Autor
+                                hr(style="margin: 0.5rem 0;")
+                                div(style="display: flex; justify-content: space-between;")
+                                    a(href="/" + user.username, style="word-break: break-all;")= user.username
+                                    span.tag.is-info= "Nível " + user.stats.level
+                            .column(style="display: flex; justify-content: flex-end; max-width: 80px; padding: 0.25rem;")
+                                figure.image.is-64x64
+                                    a(href="/" + user.username)
+                                        img(src=(user.useGravatar ? user.avatar.gravatarURL + '?s=64' : `data:${user.avatar.contentType};base64,${user.avatar.data}`), style="border-radius: 3px;")
+            div.difficulty.is-pulled-right.unprintable
+                label Dificuldade: 
+                if challenge.difficulty == "Starter"
+                    span.tag.is-primary Iniciante
+                else if challenge.difficulty == "Easy"
+                    span.tag.is-success Fácil
+                else if challenge.difficulty == "Intermediate"
+                    span.tag.is-warning Intermédio
+                else if challenge.difficulty == "Hard"
+                    span.tag.is-danger Difícil
+                else
+                    span.tag.is-black Impossível
+            h4.subtitle.is-4 Enunciado
+            .box.media.wording
+                .media-content
+                    .content!= challenge.wording
+                .media-right.unprintable
+                    a.button.print
+                        span.icon.is-small
+                            i.fa.fa-print
+                        span.print Imprimir
+            if currentUser && currentUser.id != challenge.author
+                hr.unprintable
+                if !solvedCode
+                    form(method='post').unprintable
+                        input(type='hidden', name='challengeID', value=challenge._id)
+                        .field.is-grouped.is-pulled-right
+                            p.control
+                                input#source-code(type='file', accept='.c,.cpp,.java')
+                                label.button.is-dark(for="source-code") Escolher ficheiro
+                            p.control
+                                button.button.is-info.is-outlined Submeter
+                else
+                    div.is-pulled-right
+                        h4.subtitle.is-4 Já Resolvido
+                h4.title.is-4.unprintable Código
+                .editor-container.unprintable
+                    if solvedCode
+                        #editor= solvedCode
+                    else
+                        #editor
+                hr.unprintable
+            h4.title.is-4 Exemplos
+            - var count = 0;
+            each example in challenge.examples
+                .columns
+                    .column.is-half
+                        .eg-container
+                            span.tag.is-pulled-right Input
+                            div(id="editor_eg_" + count++)
+                                = example.input
+                    .column.is-half
+                        .eg-container
+                            span.tag.is-pulled-right Output
+                            div(id="editor_eg_" + count++)
+                                = example.output

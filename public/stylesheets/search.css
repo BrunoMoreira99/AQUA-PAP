@@ -1,0 +1,66 @@
+html, .section {
+    background-color: #f5f7fa;
+}
+
+.hero {
+    margin-top: -3.25rem;
+    background-color: #f5f7fa;
+}
+
+.hero-body svg {
+    width: 256px;
+    height: 256px;
+}
+
+.hero-body svg path[fill="#000000"] {
+    fill: #363636;
+}
+
+.box {
+    color: #4a4a4a;
+}
+
+.box .column {
+    display: flex;
+}
+
+.box .image {
+    margin-right: 1.25rem;
+}
+
+.image.is-84x84 {
+    width: 84px;
+    height: 84px;
+}
+
+.box .image img {
+    border-radius: 3px;
+}
+
+.box .stat {
+    border-left: 1px solid #dbdbdb;
+    margin: -7px 0 -7px 0;
+    display: flex;
+    align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+    .box .stat {
+        border-left: 0px;
+        margin-top: 60px;
+    }
+}
+
+.box .stat div {
+    margin: 0 auto;
+}
+
+.box .stat-key {
+  font-size: 16px;
+  font-weight: 200;
+}
+
+.box .stat-val {
+  font-size: 23px;
+  font-weight: 400;
+}

@@ -1,0 +1,20 @@
+extends layout
+
+block header-stylesheets
+    link(rel='stylesheet', href='/stylesheets/error.css')
+block header-scripts
+    script(src="/scripts/particles.min.js")
+    script.
+        particlesJS.load('particles-js', '/configs/particles-error.json');
+block content
+    div#particles-js
+        section.hero.is-fullheight.is-dark.has-text-centered
+            div.hero-body
+                div.container
+                    h1.title= 'GRATS. YOU BROKE IT. AGAIN.'
+                    if status == 500
+                        h2.subtitle= `${status} - Internal Server Error`
+                        br
+                        pre.has-text-left= message.substring(message.lastIndexOf('\\') + 1)
+                    else
+                        h2.subtitle= `${status} - ${message}`

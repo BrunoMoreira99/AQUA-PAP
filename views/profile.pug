@@ -1,0 +1,302 @@
+extends layout
+
+block header-stylesheets
+    link(rel='stylesheet', href='/stylesheets/profile.css')
+block header-scripts
+    script(src="/amcharts/amcharts.js")
+    script(src="/amcharts/serial.js")
+    script(src="/scripts/profile.js")
+block content
+    include topbar
+    .container.profile
+        .section.profile-heading
+            .columns
+                .column.is-2
+                    figure.image.is-128x128.avatar
+                        if edit
+                            a(href="/settings/profile")
+                                img(src=(user.useGravatar ? user.avatar.gravatarURL + '?s=128' : `data:${user.avatar.contentType};base64,${user.avatar.data}`))
+                        else
+                            img(src=(user.useGravatar ? user.avatar.gravatarURL + '?s=128' : `data:${user.avatar.contentType};base64,${user.avatar.data}`))
+                .column.is-4
+                    p
+                        if user.name
+                            span.title.is-bold= user.name
+                            br
+                            span#username.subtitle= user.username
+                        else
+                            span#username.title.is-bold= user.username
+                    br
+                    if edit && !user.biography
+                        a(href="/settings/profile?focus=bio") Adicionar biografia
+                    else
+                        p= user.biography
+                .column.is-2.has-text-centered.stat
+                    div
+                        p.stat-val= user.stats.level.toFixed(0)
+                        p.stat-key nível
+                .column.is-2.has-text-centered.stat
+                    div
+                        p.stat-val= user.stats.challenges.created
+                        p.stat-key desafios criados
+                .column.is-2.has-text-centered.stat
+                    div
+                        p.stat-val= user.stats.challenges.solved
+                        p.stat-key desafios resolvidos
+        .tabs.is-toggle.is-fullwidth
+            ul
+                li(class=!tab || tab == 'about' ? 'is-active' : '')
+                    a(href='/' + user.username)
+                        span.icon.is-small
+                            i.fa.fa-list
+                        span Sobre
+                li(class=tab == 'stats' ? 'is-active' : '')
+                    a(href='/' + user.username + '?tab=stats')
+                        span.icon.is-small
+                            i.fa.fa-bar-chart
+                        span Estatísticas
+                li(class=tab == 'challenges' ? 'is-active' : '')
+                    a(href='/' + user.username + '?tab=challenges')
+                        span.icon.is-small
+                            i.fa.fa-th
+                        span Desafios Criados
+                li(class=tab == 'solved' ? 'is-active' : '')
+                    a(href='/' + user.username + '?tab=solved')
+                        span.icon.is-small
+                            i.fa.fa-bookmark
+                        span Desafios Resolvidos
+    .section.profile
+        .container
+            if !tab || tab == 'about'
+                .columns
+                    .column.is-5
+                        .box
+                            if user.privacy.email
+                                .level.is-mobile
+                                    .level-left
+                                        .level-item
+                                            span.icon.is-small
+                                                i.fa.fa-envelope
+                                        .level-item
+                                            p Email
+                                    .level-right
+                                        p.level-item= user.email
+                            if user.company && user.privacy.company
+                                hr
+                                .level.is-mobile
+                                    .level-left
+                                        .level-item
+                                            span.icon.is-small
+                                                i.fa.fa-building
+                                        .level-item
+                                            p Empresa
+                                    .level-right
+                                        p.level-item= user.company
+                            if user.occupation && user.privacy.occupation
+                                hr
+                                .level.is-mobile
+                                    .level-left
+                                        .level-item
+                                            span.icon.is-small
+                                                i.fa.fa-briefcase
+                                        .level-item
+                                            p Ocupação
+                                    .level-right
+                                        p.level-item= user.occupation
+                            if user.location && user.privacy.location
+                                hr
+                                .level.is-mobile
+                                    .level-left
+                                        .level-item
+                                            span.icon.is-small
+                                                i.fa.fa-map-marker
+                                        .level-item
+                                            p Localização
+                                    .level-right
+                                        p.level-item= user.location
+                            if user.url && user.privacy.url
+                                hr
+                                .level.is-mobile
+                                    .level-left
+                                        .level-item
+                                            span.icon.is-small
+                                                i.fa.fa-globe
+                                        .level-item
+                                            p URL
+                                    .level-right
+                                        a(href=user.url, target='_blank').level-item= user.url
+                        if edit
+                            .box.blank-section
+                                div
+                                    a.icon.is-large
+                                        i.fa.fa-plus-circle
+                    .column
+                        .box
+                            h4.title.is-4.has-text-right Atividade Recente
+                            .has-text-centered
+                                h6.subtitle.is-6 Nenhuma atividade recente.
+            else if (tab == 'stats')
+                .tile.is-ancestor
+                    .tile.is-parent
+                        .tile.is-child.box.has-text-centered
+                            .level-container
+                                | Nível 
+                                span.tag.is-info.is-unselectable= user.stats.level
+                                progress.progress.is-info.xp-bar(value=0, max=user.getRequiredXP())
+                                h6.subtitle.is-6= (user.getRequiredXP() - user.stats.levelXP) + " XP para o próximo nível"
+                                script setTimeout(()=>{$('.xp-bar').val(#{user.stats.levelXP})},250);
+                    .tile.is-parent
+                        .tile.is-child.box.content
+                            table
+                                tbody
+                                    tr
+                                        td Linguagem favorita:
+                                        td
+                                            - var favoriteLanguage = user.getFavoriteLanguage().toLowerCase();
+                                            - favoriteLanguage = favoriteLanguage.charAt(0).toUpperCase() + favoriteLanguage.slice(1);
+                                            span.tag.is-info.stat= favoriteLanguage == 'Cpp' ? 'C++' : favoriteLanguage
+                                    tr
+                                        td Dificuldade favorita:
+                                        td
+                                            case user.getFavoriteDifficulty()
+                                                when 'starter'
+                                                    span.tag.is-info.stat Iniciante
+                                                when 'easy'
+                                                    span.tag.is-info.stat Fácil
+                                                when 'intermediate'
+                                                    span.tag.is-info.stat Intermédio
+                                                when 'hard'
+                                                    span.tag.is-info.stat Difícil
+                                                when 'impossible'
+                                                    span.tag.is-info.stat Impossível
+                                                default
+                                                    span.tag.is-info.stat Nenhuma
+                                    tr
+                                        td N.º de submissões:
+                                        td
+                                            span.tag.is-info.stat= user.getTotalSubmissions()
+                                    tr
+                                        td Rácio Aceites/Erradas:
+                                        - const ratioAW = user.getTotalResult('ACCEPTED') / user.getTotalResult('WRONG_ANSWER');
+                                        td
+                                            span.tag.is-info.stat= ratioAW === Infinity ? 'Perfeito' : (ratioAW === NaN ? ratioAW.toFixed(2) : "N/A")
+                .tile.is-ancestor
+                    .tile.is-parent
+                        .tile.is-child.box
+                            h4.subtitle.is-4.has-text-right Submissões
+                            #submissions(style="height: 400px")
+                    .tile.is-parent
+                        .tile.is-child.box
+                            h4.subtitle.is-4.has-text-right Linguagens Usadas
+                            #languages(style="height: 400px")
+                -
+                    const submissions = [
+                        {
+                            0: "Aceite",
+                            1: user.stats.submissions.starter.results.ACCEPTED,
+                            2: user.stats.submissions.easy.results.ACCEPTED,
+                            3: user.stats.submissions.intermediate.results.ACCEPTED,
+                            4: user.stats.submissions.hard.results.ACCEPTED,
+                            5: user.stats.submissions.impossible.results.ACCEPTED
+                        },
+                        {
+                            0: "Resposta Errada",
+                            1: user.stats.submissions.starter.results.WRONG_ANSWER,
+                            2: user.stats.submissions.easy.results.WRONG_ANSWER,
+                            3: user.stats.submissions.intermediate.results.WRONG_ANSWER,
+                            4: user.stats.submissions.hard.results.WRONG_ANSWER,
+                            5: user.stats.submissions.impossible.results.WRONG_ANSWER
+                        },
+                        {
+                            0: "Erro de Apresentação",
+                            1: user.stats.submissions.starter.results.PRESENTATION_ERROR,
+                            2: user.stats.submissions.easy.results.PRESENTATION_ERROR,
+                            3: user.stats.submissions.intermediate.results.PRESENTATION_ERROR,
+                            4: user.stats.submissions.hard.results.PRESENTATION_ERROR,
+                            5: user.stats.submissions.impossible.results.PRESENTATION_ERROR
+                        },
+                        {
+                            0: "Runtime Error",
+                            1: user.stats.submissions.starter.results.RUNTIME_ERROR,
+                            2: user.stats.submissions.easy.results.RUNTIME_ERROR,
+                            3: user.stats.submissions.intermediate.results.RUNTIME_ERROR,
+                            4: user.stats.submissions.hard.results.RUNTIME_ERROR,
+                            5: user.stats.submissions.impossible.results.RUNTIME_ERROR
+                        },
+                        {
+                            0: "Compile Error",
+                            1: user.stats.submissions.starter.results.COMPILE_ERROR,
+                            2: user.stats.submissions.easy.results.COMPILE_ERROR,
+                            3: user.stats.submissions.intermediate.results.COMPILE_ERROR,
+                            4: user.stats.submissions.hard.results.COMPILE_ERROR,
+                            5: user.stats.submissions.impossible.results.COMPILE_ERROR
+                        },
+                        {
+                            0: "Tempo Limite Excedido",
+                            1: user.stats.submissions.starter.results.TIMEOUT,
+                            2: user.stats.submissions.easy.results.TIMEOUT,
+                            3: user.stats.submissions.intermediate.results.TIMEOUT,
+                            4: user.stats.submissions.hard.results.TIMEOUT,
+                            5: user.stats.submissions.impossible.results.TIMEOUT
+                        }
+                    ];
+                    const languages = [
+                        {
+                            0: "C",
+                            1: user.stats.submissions.starter.languages.C,
+                            2: user.stats.submissions.easy.languages.C,
+                            3: user.stats.submissions.intermediate.languages.C,
+                            4: user.stats.submissions.hard.languages.C,
+                            5: user.stats.submissions.impossible.languages.C
+                        },
+                        {
+                            0: "C++",
+                            1: user.stats.submissions.starter.languages.CPP,
+                            2: user.stats.submissions.easy.languages.CPP,
+                            3: user.stats.submissions.intermediate.languages.CPP,
+                            4: user.stats.submissions.hard.languages.CPP,
+                            5: user.stats.submissions.impossible.languages.CPP
+                        },
+                        {
+                            0: "Java",
+                            1: user.stats.submissions.starter.languages.JAVA,
+                            2: user.stats.submissions.easy.languages.JAVA,
+                            3: user.stats.submissions.intermediate.languages.JAVA,
+                            4: user.stats.submissions.hard.languages.JAVA,
+                            5: user.stats.submissions.impossible.languages.JAVA
+                        }
+                    ];
+                script.
+                    makeCharts(!{JSON.stringify(submissions)}, !{JSON.stringify(languages)});
+            else if (tab == 'challenges' || tab == 'solved') && challenges
+                each row in challenges
+                    .columns
+                        each challenge in row
+                            .column.is-one-third
+                                .box.challenge
+                                    article.media
+                                        if tab == 'solved'
+                                            figure.media-left
+                                                a.image.is-64x64(href='/' + challenge.author.username)
+                                                    img(src=(challenge.author.useGravatar ? challenge.author.avatar.gravatarURL + '?s=64' : `data:${challenge.author.avatar.contentType};base64,${challenge.author.avatar.data}`))
+                                        .media-content
+                                            .content
+                                                p
+                                                    strong= challenge.title
+                                                    br
+                                                    span.description= challenge.description ? challenge.description : "Sem descrição."
+                                            small(style=(tab == 'solved' ? 'margin-left: -77px' : ''))= tab == 'challenges' ? ("Criado " + moment(challenge.createdAt).fromNow()) : ("Criado por " + challenge.author.username) 
+                                        .media-right
+                                            if challenge.difficulty == "Starter"
+                                                span.tag.is-primary Iniciante
+                                            else if challenge.difficulty == "Easy"
+                                                span.tag.is-success Fácil
+                                            else if challenge.difficulty == "Intermediate"
+                                                span.tag.is-warning Intermédio
+                                            else if challenge.difficulty == "Hard"
+                                                span.tag.is-danger Difícil
+                                            else
+                                                span.tag.is-black Impossível
+                                        .media-bottom-right
+                                            a.icon(href='/' + (tab == 'solved' ? challenge.author.username : user.username) + '/' + challenge.title)
+                                                i.fa.fa-external-link

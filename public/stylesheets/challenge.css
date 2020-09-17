@@ -1,0 +1,83 @@
+html, .section {
+    background-color: #f5f7fa;
+}
+
+.modal-card-body {
+    text-align: center;
+    overflow: hidden;
+}
+
+.modal-card-foot {
+    justify-content: flex-end;
+}
+
+.wording {
+	min-height: 67px;
+}
+
+.level-container {
+    text-align: center;
+    font-size: 3rem;
+    line-height: 80px;
+}
+
+.level-container > .tag {
+    font-size: 3rem;
+    height: 80px;
+    width: 80px;
+}
+
+.level-container > .xp-bar {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.difficulty label {
+    color: #4a4a4a;
+    font-size: 14px;
+    line-height: 1.80em;
+    font-weight: 300;
+}
+
+.difficulty .tag {
+    font-size: 12px;
+}
+
+.wording .media-right {
+    width: 90px;
+    text-align: right;
+    margin-left: 0;
+}
+
+a.print:active {
+    box-shadow: none;
+}
+
+span.print {
+    overflow: hidden;
+    max-width: 0;
+    margin: -4px;
+    -webkit-transition: 1s ease-out;
+    transition: 1s ease-out;
+}
+
+a.print:hover > span.print {
+    max-width: 100px;
+}
+
+.progress::-webkit-progress-value {
+    transition: width 0.5s ease;
+}
+
+@media screen and (max-width: 768px) {
+    .wording .button.print {
+        position: absolute;
+        right: 1.25rem;
+    }
+    .wording .media-right {
+        width: auto;
+    }
+    span.print {
+        max-width: 0 !important;
+    }
+}

@@ -1,0 +1,104 @@
+extends layout
+
+block header-stylesheets
+    link(rel='stylesheet', href='/stylesheets/search.css')
+block content
+    include topbar
+    if !users.length && !challenges.length
+        section.hero.is-fullheight
+            .hero-body
+                .container.has-text-centered.is-unselectable
+                    figure.image
+                        include ../public/images/aqua-sad.svg
+                    h3.title.is-3.has-text-centered= "Não foram encontrados resultados para \"" + query + "\""
+    else
+        .section
+            .container.search
+                h3.title.is-3= "Resultados para \"" + query + "\""
+                hr
+                if users.length
+                    h4.subtitle.is-4 Utilizadores
+                    hr
+                    each user in users
+                        a.box(href="/" + user.username)
+                            if isMobile
+                                .columns
+                                    .column
+                                        .is-pulled.right
+                                            figure.image.is-84x84
+                                                img(src=(user.useGravatar ? user.avatar.gravatarURL + '?s=84' : `data:${user.avatar.contentType};base64,${user.avatar.data}`))
+                                        div
+                                            h5.title.is-5= user.name
+                                            h6.subtitle.is-6= user.username
+                                            p= user.biography
+                            else
+                                .columns
+                                    .column.is-half
+                                        .is-pulled.right
+                                            figure.image.is-84x84
+                                                img(src=(user.useGravatar ? user.avatar.gravatarURL + '?s=84' : `data:${user.avatar.contentType};base64,${user.avatar.data}`))
+                                        div
+                                            h5.title.is-5= user.name
+                                            h6.subtitle.is-6= user.username
+                                            p= user.biography
+                                    .column.is-2.has-text-centered.stat
+                                        div
+                                            p.stat-val= user.stats.level.toFixed(0)
+                                            p.stat-key nível
+                                    .column.is-2.has-text-centered.stat
+                                        div
+                                            p.stat-val= user.stats.challenges.created
+                                            p.stat-key desafios criados
+                                    .column.is-2.has-text-centered.stat
+                                        div
+                                            p.stat-val= user.stats.challenges.solved
+                                            p.stat-key desafios resolvidos
+                if challenges.length
+                    h4.subtitle.is-4 Desafios
+                    hr
+                    each challenge in challenges
+                        a.box(href="/" + challenge.author.username + "/" + challenge.title)
+                            if isMobile
+                                .columns
+                                    .column
+                                        div
+                                            h5.title.is-5.is-spaced= challenge.title
+                                            h6.subtitle.is-6= challenge.description
+                                        .is-pulled-right
+                                            if challenge.difficulty == "Starter"
+                                                span.tag.is-primary Iniciante
+                                            else if challenge.difficulty == "Easy"
+                                                span.tag.is-success Fácil
+                                            else if challenge.difficulty == "Intermediate"
+                                                span.tag.is-warning Intermédio
+                                            else if challenge.difficulty == "Hard"
+                                                span.tag.is-danger Difícil
+                                            else
+                                                span.tag.is-black Impossível
+                            else
+                                .columns
+                                    .column.is-half
+                                        div
+                                            h5.title.is-5.is-spaced= challenge.title
+                                            h6.subtitle.is-6= challenge.description
+                                    .column.is-2.has-text-centered.stat
+                                        div
+                                            if challenge.difficulty == "Starter"
+                                                p.stat-val Iniciante
+                                            else if challenge.difficulty == "Easy"
+                                                p.stat-val Fácil
+                                            else if challenge.difficulty == "Intermediate"
+                                                p.stat-val Intermédio
+                                            else if challenge.difficulty == "Hard"
+                                                p.stat-val Difícil
+                                            else
+                                                p.stat-val Impossível
+                                            p.stat-key dificuldade
+                                    .column.is-2.has-text-centered.stat
+                                        div
+                                            p.stat-val= challenge.solvedBy ? challenge.solvedBy.length : 0
+                                            p.stat-key vezes resolvido
+                                    .column.is-2.has-text-centered.stat
+                                        div
+                                            p.stat-val= challenge.author.username
+                                            p.stat-key autor

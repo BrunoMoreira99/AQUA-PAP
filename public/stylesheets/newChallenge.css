@@ -1,0 +1,101 @@
+html, .section {
+    background-color: #f5f7fa;
+}
+
+body {
+    padding-bottom: 35px;
+}
+
+div.is-active {
+    border-color: #00d1b2;
+}
+
+div.is-danger {
+    border-color: #ff3860;
+}
+
+.CodeMirror {
+    border-radius: 3px;
+    border: 1px solid #dbdbdb;
+    border-top-width: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    color: #363636;
+    cursor: text;
+    box-shadow: inset 0px 0px 2px rgba(10, 10, 10, 0.1);
+}
+
+.CodeMirror, .CodeMirror-scroll {
+    min-height: 50px;
+}
+
+.editor-toolbar {
+    opacity: 1;
+    border-radius: 3px;
+    background-color: white;
+    border: 1px solid #dbdbdb;
+    border-bottom-color: #dbdbdb !important;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    color: #363636;
+    box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
+}
+
+.editor-toolbar:hover {
+    opacity: 1;
+}
+
+.editor-toolbar a {
+    font-size: 16px;
+    border: none;
+}
+
+.editor-toolbar a.active, .editor-toolbar a:hover {
+    color: #06c !important;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+.editor-toolbar a:focus {
+    outline: none;
+}
+
+.editor-toolbar i.separator {
+    font-size: 20px;
+}
+
+.editor-preview {
+    box-shadow: inset 0px 0px 2px rgba(10, 10, 10, 0.1);
+}
+
+.eg-container > .tag {
+    margin-bottom: 10px;
+}
+
+label.radio.tag {
+    font-size: 12px;
+}
+
+input[type="radio"] {
+    margin-top: 2px;
+}
+
+span.add {
+    cursor: pointer;
+}
+
+span.add button {
+    background-color: transparent;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+span.add:hover {
+    background-color: #2f2f2f;
+}
+
+.is-circle {
+    width: 20px;
+    height: 20px;
+}

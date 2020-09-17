@@ -1,0 +1,112 @@
+extends layout
+
+block header-stylesheets
+    link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.css')
+    link(rel='stylesheet', href='/stylesheets/home.css')
+block header-scripts
+    script(src='//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.js')
+    script(src="/scripts/particles.min.js")
+    script(src="/scripts/home.js")
+block content
+    div.loading
+    div.modal#signin-modal(style="display: none")
+        div.modal-background
+        div.modal-content(style="width: 480px; display: none")
+            div.box.is-unselectable
+                p.title= "Iniciar sessão"
+                .notification.is-danger(style="display: none")
+                form#signin-form(action='login' method='post' novalidate)
+                    .field
+                        //label.label Nome de utilizador ou e-mail
+                        p.control.has-icons-left.has-icons-right
+                            input.input(type='text', name="email", placeholder="Nome de utilizador ou e-mail", required)
+                            span.icon.is-small.is-left
+                                i.fa.fa-user
+                    .field
+                        //label.label Palavra-passe
+                        p.control.has-icons-left.has-icons-right
+                            input.input(type='password', name="password", placeholder="Palavra-passe" required)
+                            span.icon.is-small.is-left
+                                i.fa.fa-lock
+                    .field
+                        p.control(style="margin-top: 14px; text-align: right")
+                            button.button.is-dark Entrar
+        button.modal-close
+    div.modal#signup-modal(style="display: none")
+        div.modal-background
+        div.modal-content(style="width: 480px; display: none")
+            div.box.is-unselectable
+                p.title= "Registo"
+                form#signup-form(action='signup' method='post' novalidate)
+                    .field
+                        label.label Nome de utilizador
+                        p.control.has-icons-right
+                            input.input(type='text' name='username' placeholder='Escolha um nome de utilizador' required)
+                    .field
+                        label.label E-mail
+                        p.control.has-icons-right
+                            input.input(type='email' name="email" placeholder='oseuemail@exemplo.org' required)
+                    .field
+                        label.label Palavra-passe
+                        p.control.has-icons-right
+                            input.input(type='password' name="password" placeholder='Escolha uma palavra-passe' required)
+                    .field
+                        label.label Confirmar Palavra-passe
+                        p.control.has-icons-right
+                            input.input(type='password' name="conf-password" placeholder='Confirme a sua palavra-passe' required)
+                    .field
+                        p.control(style="margin-top: 14px; text-align: right")
+                            button.button.is-dark Criar conta
+        button.modal-close
+    section.hero.is-dark.is-fullheight.header-image(style=`background-image: url('images/${Math.floor(Math.random() * 8 + 1)}.jpg')`)
+        .hero-head
+            header.nav
+                .container
+                    .nav-left
+                        a.nav-item.is-tab.is-active= "Início"
+                        a.nav-item.is-tab= "Sobre"
+                        a.nav-item.is-tab= "Suporte"
+                    .nav-center
+                        a.nav-item.aqualogo.is-light(href="/")
+                    span.nav-toggle
+                        span
+                        span
+                        span
+                    .nav-right.nav-menu
+                        if currentUser
+                            a.nav-item(href=currentUser.username)
+                                figure.image.is-24x24(style="margin-right: 8px;")
+                                    img(src=(currentUser.useGravatar ? currentUser.avatar.gravatarURL + '?s=24' : `data:${currentUser.avatar.contentType};base64,${currentUser.avatar.data}`), style="border-radius: 3px;")
+                                = currentUser.username
+                            a.nav-item(href='logout')= "Terminar sessão"
+                            a.nav-item(href='settings')
+                                span.icon
+                                    i.fa.fa-cog
+                        else
+                            span.nav-item
+                                a.button.is-white.is-outlined#signin-btn= "Iniciar sessão"
+                            span.nav-item
+                                a.button.is-info#signup-btn= "Criar conta"
+        if !isMobile
+            div#particles-js
+        .hero-body#header-body
+            .container.has-text-centered.is-unselectable
+                h1.title.is-spaced= "AQUA"
+                h2.subtitle= "Autonomous Qualification of User Algorithms"
+    footer.footer
+        .container
+            .content.has-text-centered
+                p
+                    = "Made with "
+                    i.fa.fa-heart(style="color: #00d1b2; font-size: 14px; vertical-align: initial;")
+                    = " by "
+                    strong Bruno Moreira
+                p
+                    a.icon(href='https://github.com/BrunoMoreira991')
+                        i.fa.fa-github
+                    a.icon(href='https://www.linkedin.com/in/BrunoMoreira99')
+                        i.fa.fa-linkedin
+                    a.icon(href='https://www.facebook.com/BrunoMoreira99')
+                        i.fa.fa-facebook
+                    a.icon(href='https://twitter.com/BrunoMoreira99')
+                        i.fa.fa-twitter

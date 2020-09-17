@@ -1,0 +1,36 @@
+extends layout
+
+block header-stylesheets
+	link(rel='stylesheet', href='/stylesheets/login.css')
+block header-scripts
+	script(src="/scripts/particles.min.js")
+	script(src="/scripts/login.js")
+block content
+	div#particles-js
+	section.hero.is-fullheight
+		.hero-body
+			.container
+				.columns
+					.column.is-4
+						.box
+							h1.title= "Iniciar sessão"
+							form(action='login', method='post', novalidate)
+								.field
+									label.label Nome de utilizador ou e-mail
+									p.control.has-icons-left.has-icons-right
+										input.input(type='text', name="email", required)
+										span.icon.is-small.is-left
+											i.fa.fa-user
+								.field
+									label.label Palavra-passe
+									p.control.has-icons-left.has-icons-right
+										input.input(type='password', name="password", required)
+										span.icon.is-small.is-left
+											i.fa.fa-lock
+								.field
+									p.control(style="margin-top: 14px; text-align: right")
+										button.button.is-dark= "Entrar"
+						p.has-text-centered.link
+							a(href='signup')= "Criar conta"
+							= " | "
+							a(href='#')= "Esqueceste-te da tua conta?"

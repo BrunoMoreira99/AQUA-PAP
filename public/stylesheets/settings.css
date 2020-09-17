@@ -1,0 +1,51 @@
+.textarea {
+    min-height: 80px;
+}
+
+.avatar img {
+    border-radius: 6px;
+}
+
+.avatar .button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.icon.unchecked {
+    color: #dbdbdb;
+}
+
+.icon.checked {
+    color: #00d1b2;
+}
+
+.message-body {
+    border-color: #dbdbdb !important;
+    border-radius: 0;
+}
+
+@media screen and (min-width: 769px) {
+    .avatar .image {
+        max-width: 200px;
+    }
+    .avatar img {
+        width: 200px;
+    }
+    .section.settings {
+        padding: 3rem 6rem;
+    }
+    .menu {
+        border-right: 1px solid #dbdbdb;
+        padding-right: 10px;
+        height: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .avatar {
+        float: none;
+    }
+    .avatar button {
+        width: 100%;
+    }
+}

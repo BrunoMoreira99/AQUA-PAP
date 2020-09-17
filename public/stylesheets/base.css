@@ -1,0 +1,68 @@
+.nav-item input {
+    box-shadow: none;
+}
+
+.progress::-webkit-progress-value {
+    transition: width 500ms ease;
+}
+
+@-webkit-keyframes autofill {
+    to {
+        color: #363636;;
+        background-color: white;
+    }
+}
+
+input:-webkit-autofill {
+    -webkit-animation-name: autofill;
+    -webkit-animation-fill-mode: both;
+}
+
+input[type="file"] {
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+input[type="file"] + label + span.help {
+    display: inline-block;
+    padding: 7px;
+}
+
+.editor-container {
+    padding: 10px;
+    background: #272822;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+}
+
+.eg-container {
+    background-color: #FFF;
+    border-radius: 3px;
+    border: 1px solid #CCC;
+    padding: 10px;
+    height: 100%;
+    min-height: 43px;
+	page-break-inside: avoid;
+}
+
+.eg-container .ace_gutter > .ace_layer {
+    background-color: #FFF;
+    color: #888;
+}
+
+.eg-container .ace_gutter > .ace_layer > .ace_gutter-cell {
+    padding-left: 0px;
+}
+
+.eg-container .ace_hidden-cursors {
+    opacity: 0;
+}
+
+.is-circle {
+    width: 20px;
+    height: 20px;
+}

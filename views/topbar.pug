@@ -1,0 +1,39 @@
+nav.nav.has-shadow
+    .container
+        .nav-left
+            a.nav-item(href="/")
+                include ../public/images/aqualogo.svg
+            .nav-item
+                form(action="/search", method="get")
+                    .field
+                        p.control.has-icon
+                            input.input(type="text", name="q", placeholder="Pesquisar")
+                            span.icon.is-small
+                                i.fa.fa-search
+            if !isNewChallenge && currentUser && !isMobile
+                a.nav-item(href='/new') Novo Desafio
+        span.nav-toggle
+            span
+            span
+            span
+        .nav-right.nav-menu
+            if currentUser
+                a.nav-item(href='/' + currentUser.username)
+                    figure.image.is-24x24(style="margin-right: 8px;")
+                        img(src=(currentUser.useGravatar ? currentUser.avatar.gravatarURL + '?s=24' : `data:${currentUser.avatar.contentType};base64,${currentUser.avatar.data}`), style="border-radius: 3px;")
+                    = currentUser.username
+                if isMobile
+                    if !isNewChallenge
+                        a.nav-item(href='/new') Novo Desafio
+                    a.nav-item(href='/settings') Opções
+                    a.nav-item(href='/logout') Terminar sessão
+                else
+                    a.nav-item(href='/logout') Terminar sessão
+                    a.nav-item(href='/settings')
+                        span.icon
+                            i.fa.fa-cog
+            else
+                span.nav-item
+                    a.button(href='/login') Iniciar sessão
+                span.nav-item
+                    a.button.is-info(href='/signup') Criar conta

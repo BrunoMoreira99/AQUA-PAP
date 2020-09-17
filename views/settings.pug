@@ -1,0 +1,146 @@
+extends layout
+
+block header-stylesheets
+    link(rel='stylesheet', href='/stylesheets/settings.css')
+block header-scripts
+    script(src="/scripts/settings.js")
+block content
+    include topbar
+    article.message(style="display: none;")
+        div.message-body
+            .container.profile(style="display: none;")
+                | O perfil foi atualizado com sucesso. — 
+                a(href="/" + currentUser.username) ver perfil
+                | .
+            .container.account(style="display: none;")
+                | A palavra-passe foi alterada com sucesso.
+            .container.error(style="display: none;")
+                | Oops... ocorreu um erro desconhecido!
+    .section.settings
+        .columns
+            .column.is-3
+                aside.menu
+                    p.menu-label
+                        | Definições Pessoais
+                    ul.menu-list
+                        li
+                            a(class=tab == 'profile' ? 'is-active' : '', href='profile') Perfil
+                        li
+                            a(class=tab == 'admin' ? 'is-active' : '', href='admin') Conta
+            .column
+                if tab == 'profile'
+                    h3.title.is-3 Perfil público
+                    hr
+                    form#profileForm
+                        .columns
+                            .column
+                                .field
+                                    label.label Nome
+                                    p.control
+                                        input.input(name="name", type="text", value=currentUser.name, autofocus=focus=='name')
+                                label.label Email
+                                .field.has-addons
+                                    p.control.is-expanded
+                                        input.input(name="email", type="text", value=currentUser.email, autofocus=focus=='email')
+                                    p.control
+                                        a.button.privacy(name="email_privacy", value=Number(currentUser.privacy.email))
+                                            span.icon
+                                                i.fa(class=currentUser.privacy.email ? 'fa-eye' : 'fa-eye-slash')
+                                .field
+                                    label.label Biografia
+                                    p.control
+                                        textarea.textarea(name="bio", placeholder="Conta um pouco sobre ti.", autofocus=focus=='bio')= currentUser.biography
+                                label.label Empresa
+                                .field.has-addons
+                                    p.control.is-expanded
+                                        input.input(name="company", type="text", value=currentUser.company)
+                                    p.control
+                                        a.button.privacy(name="company_privacy", value=Number(currentUser.privacy.company))
+                                            span.icon
+                                                i.fa(class=currentUser.privacy.company ? 'fa-eye' : 'fa-eye-slash')
+                                label.label Ocupação
+                                .field.has-addons
+                                    p.control.is-expanded
+                                        input.input(name="occupation", type="text", value=currentUser.occupation)
+                                    p.control
+                                        a.button.privacy(name="occupation_privacy", value=Number(currentUser.privacy.occupation))
+                                            span.icon
+                                                i.fa(class=currentUser.privacy.occupation ? 'fa-eye' : 'fa-eye-slash')
+                                label.label Localização
+                                .field.has-addons
+                                    p.control.is-expanded
+                                        input.input(name="location", type="text", value=currentUser.location)
+                                    p.control
+                                        a.button.privacy(name="location_privacy", value=Number(currentUser.privacy.location))
+                                            span.icon
+                                                i.fa(class=currentUser.privacy.location ? 'fa-eye' : 'fa-eye-slash')
+                                label.label URL
+                                .field.has-addons
+                                    p.control.is-expanded
+                                        input.input(name="url", type="text", value=currentUser.url)
+                                    p.control
+                                        a.button.privacy(name="url_privacy", value=Number(currentUser.privacy.url))
+                                            span.icon
+                                                i.fa(class=currentUser.privacy.url ? 'fa-eye' : 'fa-eye-slash')
+                            .column.is-4
+                                .field.avatar.is-pulled-right
+                                    label.label Imagem de perfil
+                                    figure.image
+                                        img(src=(currentUser.useGravatar ? currentUser.avatar.gravatarURL + '?s=200' : `data:${currentUser.avatar.contentType};base64,${currentUser.avatar.data}`))
+                                        if currentUser.useGravatar
+                                            p.help
+                                                | Para alterares a tua imagem de perfil, altera o teu Gravatar em 
+                                                a(href='http://pt.gravatar.com/' target='_blank') gravatar.com
+                                                | .
+                                    if hasGravatar && !currentUser.useGravatar
+                                        p.control
+                                            button.button(type='button', gravatar=hasGravatar) Ligar ao Gravatar
+                        .field
+                            p.control
+                                button.button Atualizar perfil
+                else if tab == 'admin'
+                    h3.title.is-3 Alterar palavra-passe
+                    hr
+                    form#accountForm
+                        .columns
+                            .column
+                                .field
+                                    label.label Palavra-passe atual
+                                    p.control.has-icons-right
+                                        input.input(name="currentpassword", type="password", required)
+                                .field
+                                    label.label Nova palavra-passe
+                                    p.control.has-icons-right
+                                        input.input(name="newpassword", type="password", required)
+                                .field
+                                    label.label Confirmar nova palavra-passe
+                                    p.control.has-icons-right
+                                        input.input(name="confpassword", type="password", required)
+                            .column.is-4
+                                label.label Uma boa palavra-passe contém:
+                                .box
+                                    p
+                                        span.icon.is-small.unchecked
+                                            i.fa.fa-check
+                                        |  Pelo menos 8 caracteres.
+                                    p
+                                        span.icon.is-small.unchecked
+                                            i.fa.fa-check
+                                        |  Pelo menos uma letra maiúscula.
+                                    p
+                                        span.icon.is-small.unchecked
+                                            i.fa.fa-check
+                                        |  Pelo menos uma letra minúscula.
+                                    p
+                                        span.icon.is-small.unchecked
+                                            i.fa.fa-check
+                                        |  Pelo menos um caractere numérico.
+                                    p
+                                        span.icon.is-small.unchecked
+                                            i.fa.fa-check
+                                        |  Pelo menos um caractere especial.
+                                    br
+                                    progress.progress.is-primary(value="0", max="5")
+                        .field
+                            p.control
+                                button.button Atualizar palavra-passe
